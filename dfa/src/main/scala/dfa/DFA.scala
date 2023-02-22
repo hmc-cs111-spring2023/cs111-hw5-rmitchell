@@ -5,8 +5,8 @@ package dfa // leave this line in the file
 case class State (label:String)
 case class Transition (from:State, to:State, symbol:Char)
 
-class DFA(states:Set[State], transitions:Set[Transition],
-start: State, accept:Set[State]):
+class DFA(states:Set[State], val transitions:Set[Transition],
+val start: State, val accept:Set[State]):
     
   def accepts(input:String): Boolean = {
     input match {
@@ -14,7 +14,6 @@ start: State, accept:Set[State]):
       if (accept.contains(this.start)){return true} 
       else {return false}
     case stringInput:Any =>
-    //   val newList = (this.transitions.filter(_.from == this.startState)).filter(_.symbol == stringInput.charAt(0))
       val newList = this.transitions.filter(_.from == this.start).filter(_.symbol == stringInput.charAt(0))
       val newStartState:State = (newList.head).to	
       val recursiveDFA:DFA = DFA(this.states, this.transitions, newStartState, this.accept)
