@@ -46,11 +46,36 @@ def simplify(lang: RegularLanguage): RegularLanguage =
   } 
 
 /** A language is nullable if it contains ε */
-def nullable(lang: RegularLanguage): Boolean = ???
+def nullable(lang: RegularLanguage): Boolean = 
+  val simplified = simplify(lang)
+  simplified match{
+  // lang match{
+    case Empty => false
+    case Epsilon => true
+    case Character(someChar) => false
+    case Concat(input1, input2) => nullable(input1) && nullable(input2)
+    case Union(input1, input2) => nullable(input1) || nullable(input2)
+    case Star(input) => true
+  }
 
 /** Computes the derivative of a language, with respect to a character */
-def derivative(l: RegularLanguage)(c: Char): RegularLanguage = ???
-
+def derivative(l: RegularLanguage)(c: Char): RegularLanguage = 
+  l match{
+    case Empty => Empty
+    case Epsilon => Empty
+    case Character(input) => 
+      if (Character(input) == Character(c)){return Epsilon}
+      else {return Empty}
+    case Concat(input1, input2) => 
+      if (!(nullable(input1))) {return ( Concat((derivative(input1)(c)), input2)) }
+      else {return Union( 
+         Concat(
+         (derivative(input1)(c)), input2), 
+          derivative(input2)(c)    
+        )}
+    case Union(input1, input2) => Union(derivative(input1)(c), derivative(input2)(c))
+    case Star(input) => Concat((derivative(input)(c)), Star(input))
+  }
 /** *****************************************************************************
   * String-matching with regular expressions
   */
