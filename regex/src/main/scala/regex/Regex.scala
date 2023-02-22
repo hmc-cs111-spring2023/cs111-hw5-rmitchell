@@ -6,6 +6,22 @@ package regex
   * data structure definitions for regular languages
   */
 
+trait RegularLanguage {
+  
+}
+
+case class Empty()
+
+case class Epsilon
+
+case class Character
+
+case class Union
+
+case class Concat
+
+case class Star
+
 // Add your definitions here
 
 /** *****************************************************************************
