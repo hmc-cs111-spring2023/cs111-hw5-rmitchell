@@ -6,21 +6,19 @@ package regex
   * data structure definitions for regular languages
   */
 
-trait RegularLanguage {
-  
-}
+trait RegularLanguage
 
-case class Empty()
+case object Empty extends RegularLanguage
 
-case class Epsilon
+case object Epsilon extends RegularLanguage
 
-case class Character
+case class Character(input:Char) extends RegularLanguage
 
-case class Union
+case class Union(input1: RegularLanguage, input2: RegularLanguage) extends RegularLanguage
 
-case class Concat
+case class Concat(input1: RegularLanguage, input2: RegularLanguage) extends RegularLanguage
 
-case class Star
+case class Star(input: RegularLanguage) extends RegularLanguage
 
 // Add your definitions here
 
